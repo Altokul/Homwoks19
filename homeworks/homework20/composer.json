@@ -1,0 +1,19 @@
+{
+  "name": "yourname/yourproject",
+  "description": "A simple PHP project with routing, validation, and CSRF protection.",
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "system/",
+      "App\\Controllers\\": "controllers/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --bootstrap vendor/autoload.php tests"
+  }
+}
