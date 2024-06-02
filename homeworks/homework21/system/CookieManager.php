@@ -4,80 +4,39 @@
 class CookieManager
 {
 
-    public function setCookie($name, $value, $expiry)
+    public static function setCookie(string $name, string $value, int $expiry): void
     {
-        $name = $this->sanitizeInput($name);
-        $value = $this->sanitizeInput($value);
-
-        if ($this->isValidInput($name) && $this->isValidInput($value)) {
-            setcookie($name, $value, time() + $expiry, "/");
-        } else {
-            throw new Exception("Недопустимі дані для створення кукі.");
-        }
+        setcookie($name, $value, time() + $expiry, "/");
     }
 
-    private function sanitizeInput($data)
-    {
-        return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
-    }
 
     private function isValidInput($data)
     {
         return !empty($data);
     }
 
-    public function deleteCookie($name)
+    public static function deleteCookie(string $name): void
     {
-        $name = $this->sanitizeInput($name);
-
-        if ($this->isValidInput($name)) {
-            if (isset($_COOKIE[$name])) {
-                setcookie($name, '', time() - 3600, "/");
-                unset($_COOKIE[$name]);
-            } else {
-                throw new Exception("Кукі з ім'ям '{$name}' не існує.");
-            }
-        } else {
-            throw new Exception("Недопустимі дані для видалення кукі.");
+        if (isset($_COOKIE[$name])) {
+            setcookie($name, '', time() - 3600, "/");
+            unset($_COOKIE[$name]);
         }
     }
 
-    public function getCookie($name)
+    public static function getCookie(string $name): ?string
     {
-        $name = $this->sanitizeInput($name);
-
-        if ($this->isValidInput($name)) {
-            return $_COOKIE[$name] ?? null;
-        } else {
-            throw new Exception("Недопустиме ім'я кукі.");
-        }
+        return $_COOKIE[$name] ?? null;
     }
 
-    public function isCookieSet($name)
+    public static function isCookieSet(string $name): bool
     {
-        $name = $this->sanitizeInput($name);
-
-        if ($this->isValidInput($name)) {
-            return isset($_COOKIE[$name]);
-        } else {
-            throw new Exception("Недопустиме ім'я кукі.");
-        }
+        return isset($_COOKIE[$name]);
     }
 
-    public function verifyCookieValue($name, $value)
+    public static function verifyCookieValue(string $name, string $value): bool
     {
-        $name = $this->sanitizeInput($name);
-        $value = $this->sanitizeInput($value);
-
-        if ($this->isValidInput($name) && $this->isValidInput($value)) {
-            return isset($_COOKIE[$name]) && $_COOKIE[$name] === $value;
-        } else {
-            throw new Exception("Недопустимі дані для перевірки кукі.");
-        }
+        return isset($_COOKIE[$name]) && $_COOKIE[$name] === $value;
     }
 
-    private function sanitize($data)
-    {
-        return htmlspecialchars(trim($data));
-    }
+
 }
